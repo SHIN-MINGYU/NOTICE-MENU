@@ -1,0 +1,28 @@
+.main h3{
+    margin-left : 2vw;
+}
+.main form{
+    margin-left : 2vw;
+}
+.noticeTitle{
+    height: 5vh;
+    width : 95%;
+}
+.noticeContent{
+    margin-top:1%;
+    width:95%;
+    height:50vh;
+    resize: none;
+    display:block;
+}
+.noticeNP{
+    margin-top:1vh;
+}
+.noticeName{
+    margin-top: 1%;
+}
+form div{
+    float : right;
+    margin-top:1%;
+    margin-right:5%;
+}

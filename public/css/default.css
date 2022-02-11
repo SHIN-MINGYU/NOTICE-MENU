@@ -1,0 +1,31 @@
+body{
+    margin : 0;
+}
+.Desc{
+    width : 100%;
+    height : 80%;
+    overflow: hidden;
+    font-size:0;
+}
+.leftside{
+    width : 12%;
+    height:80vh;
+    background-color: powderblue;
+    float : left;
+    overflow: auto;
+}
+.main{
+    width : 76%;
+    float : left;
+    overflow : auto;
+}
+.main *{
+    font-size:1vw;
+}
+.rightside{
+    width : 12%;
+    height: 80vh;
+    background-color: black;
+    float: left;
+    overflow: auto; 
+}

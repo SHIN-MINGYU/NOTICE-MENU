@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'SF_IceLemon';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_IceLemon.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+} 
+.main h1{
+    margin-left : 2vw;
+    margin-top: 2vh;
+    font-family: SF_IceLemon;
+    font-size : 2vw;
+}
+
+.notice_header{
+    margin-left:2vw; 
+    margin-right:2vw; 
+    overflow:auto;
+}
+.noticeUI{
+    border-bottom: 1px solid black;
+}
+.notice_update{
+    font-size:smaller;
+    background-color:transparent;
+    border:0px;
+    padding:0;
+    cursor: pointer;
+}
+.notice_delete{
+    font-size:smaller;
+    background-color:transparent;
+    border:0px;
+    padding:0;
+    cursor: pointer;
+}
+.noticeSideBanner{
+    width: 20%;
+    height: 30vh;
+    float: right;
+    overflow: hidden;
+    display : inline-block;
+    background-color: blue;
+}
+.commentcreate{
+    margin-left:2vw;
+
+}
+.commentcreate div{
+    margin-bottom: 1%;
+}
+.commentcreate button{
+    width :10%;
+    height:10.8vh; 
+    margin : 0;
+    padding: 0;
+}
+.comment_content{
+    resize: none;
+    width: 80%;
+    height: 10vh;
+    float : left;
+}
+.comment_delete_button{
+    background-color: transparent;
+    border: 0px;
+    padding:0px;
+    cursor: pointer;
+}

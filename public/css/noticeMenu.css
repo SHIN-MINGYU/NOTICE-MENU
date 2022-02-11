@@ -1,0 +1,26 @@
+.choosemenu{
+    margin-left : 2vw;
+}
+.type{
+    background-color: transparent;
+    cursor : pointer;
+    border : 1px gray thin;
+    width: 4vw;
+    height : 4vh;
+    font-weight: bold;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;;
+    color : white
+}
+.noticeHeader{
+    border-top:2px black solid
+}
+.noticeHeader{
+    border-collapse: collapse;
+}
+.noticeClick{
+    cursor : pointer;
+}
+.noticeHeader th,td{
+    border-bottom: 1px solid #444444;
+    border-collapse: collapse;
+}

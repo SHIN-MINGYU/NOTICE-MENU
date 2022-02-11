@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>modal</button>
+    <script>
+        const modal = document.querySelector('button');
+        var zIndex = 9999;
+        modal.addEventListener('click',function(){
+        let bg = document.createElement('div');
+        bg.setStyle({
+            zIndex : zIndex,
+            backgroundColor : 'gray',
+            width : '100%',
+            height : '100%',
+            position : 'fixed',
+            top :0,
+            left : 0,
+            opacity : 0.5
+        })
+        document.body.append(bg);
+        })
+        Element.prototype.setStyle = function(style){
+            for(var k in style){
+                this.style[k] = style[k];
+            }
+            return this;
+        }
+    </script>
+</body>
+</html>

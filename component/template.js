@@ -1,3 +1,5 @@
+var ud = require('../public/js/userDiscriminate');
+
 module.exports = {
     HTML : function(pageStyle,main){
         return `<!DOCTYPE html>
@@ -7,8 +9,8 @@ module.exports = {
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
-            <link rel ="stylesheet" href = "./header.css">
-            <link rel ="stylesheet" href ="./default.css">
+            <link rel ="stylesheet" href = "/css/header.css">
+            <link rel ="stylesheet" href ="/css/default.css">
             ${pageStyle}
         </head>
         <body>
@@ -51,7 +53,7 @@ module.exports = {
         }
         return body;
     }, 
-    noticeMenu : function(list){
+    noticeMenu : function(list){ //home main
         return `
         <h3 style ="margin-left : 2vw">전체 글</h3>
         <div class ="choosemenu">
@@ -86,19 +88,19 @@ module.exports = {
         </div>
     `
     },
-    createMain : function(notice){
+    createNotice : function(notice){//게시판 생성
         return`
         <h3>글 생성하기</h3>
-        <form action = "/create_process" method="post">
+        <form action = "/create_notice" method="post">
             <input class ="noticeTitle" name="title" type ="text" placeholder ="제목을 입력해주세요">
             <input type ="hidden" name="notice_id" value="${notice.length}">
-            <input class = "noticeName" type ="text" name ="name" placeholder ="이름">
+            <input class = "noticeNP" type ="text" name ="name" placeholder ="이름"><input class = "noticeNP" type ="text" name ="password" placeholder ="비밀번호">
             <textarea class ="noticeContent" name="content" placeholder ="내용을 입력해주세요" ></textarea>
             <div><button type ="submit">생성</button></div>
         </form>
         <button onclick ="location.href = '/'" style ="float : right; margin-top: 1%; margin-right : 1%">취소</button>
         `;
-    },noticeMain : function(notice){
+    },noticeMain : function(notice,commentList){ //게시판 상세보기
         function formatdate(dt){
             var y = dt.getFullYear();
             var m = ('00' + (dt.getMonth()+1)).slice(-2);
@@ -109,20 +111,55 @@ module.exports = {
             <h1>고민 상담</h1>
             <div class ="notice_header">
                 <h3>${notice[0].title}</h3>
-                <div class="noticeUI"><spam>${notice[0].name}</spam>  <spam>${formatdate(notice[0].date)}</spam>
-                <form action="/delete_process" method ="post" style ="display:inline-block; float: right;">
+                <div class="noticeUI"><spam>${notice[0].name}</spam> 
+                <div style ="display:inline-block; float:right;"><spam>${formatdate(notice[0].date)}</spam>
+                <button class ="notice_update" onClick = "${ud.modal()}">수정</button>
+                <form action="/delete_notice" method ="post" style ="display:inline-block;">
                     <input type ="hidden" name = "notice_id" value ="${notice[0].notice_id}">
-                    <button type ="submit"  class ="delete">삭제</button>
-                </form></div>
+                    <button type ="submit"  class ="notice_delete">삭제</button>
+                </form></div></div>
                 <p>${notice[0].content}</p>
                 <div class ="noticeSideBanner"></div>
             </div>
-            <form class ="comment" method ="post">
-                <div><input type ="text" placeholder= "name">
-                    <input type="text" placeholder="password"></div>
-                <textarea class ="comment_content"></textarea><br>
-                <button type ="submit">작성</button>
+            <form class ="commentcreate" action = "/create_comment" method ="post">
+                <div>
+                <input type ="hidden" name = "id" value = "${notice[0].notice_id}">
+                <input type ="text" name ="name" placeholder= "name">
+                <input type="text" name = "password" placeholder="password"></div>
+                <div><textarea name="content" class ="comment_content"></textarea> <button type ="submit">작성</button></div>
             </form>
+            <div class ="comment" style ="margin-left:2vw; margin-right:2vw;">
+            ${commentList}</br></div>
         `;
+    },commentList : function(comment){
+        let body = '';
+        var i =0;
+        while(i<comment.length){
+            body = body + `<div style ="border-bottom : 1px gray solid;">
+                                <div><spam>${comment[i].Cname}</spam><div style ="display : inline-block; float:right;"><spam>2020-02-02</spam>
+                                <form style = "display : inline-block " action ="/delete_comment" method = "post">
+                                    <input type = "hidden" name = "comment_id" value ="${comment[i].comment_id}">
+                                    <input type = "hidden" name = "notice_id" value = "${comment[i].notice_id}">
+                                    <button class ="comment_delete_button" type = "submit">삭제</button>
+                                    </form>
+                                    </div></div>
+                                <div>${comment[i].Ccontent}</div>
+                            </div>`;
+            i = i+1;
+        }
+        
+        return body;
+    }, updateNotice : function(notice){
+        return`
+        <h3>글 수정</h3>
+        <form action = "/update_notice" method="post">
+            <input class ="noticeTitle" name="title" type ="text" value = "${notice[0].title}">
+            <input type ="hidden" name="notice_id" value="${notice[0].notice_id}">
+            <textarea class ="noticeContent" name="content">${notice[0].content}</textarea>
+            <div><button type ="submit">생성</button></div>
+        </form>
+        <button onclick ="location.href = '/page/${notice[0].notice_id}'" style ="float : right; margin-top: 1%; margin-right : 1%">취소</button>
+        `;
+
     }
 }
