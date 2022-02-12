@@ -17,7 +17,6 @@ body{
 .main{
     width : 76%;
     float : left;
-    overflow : auto;
 }
 .main *{
     font-size:1vw;

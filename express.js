@@ -14,7 +14,7 @@ app.get('/',function(req,res){//home main
         let main = template.noticeMenu(list);
         let link =`<link rel ="stylesheet" href ="/css/noticeMenu.css"> `
         let html = template.HTML(link,main);
-        res.end(html);
+        res.send(html);
     });
 })
 
@@ -36,7 +36,7 @@ app.get(`/page/:pageId`,function(req, res){ //게시판 상세보기
             let main = template.noticeMain(notice,commentList);
             let link = `<link rel = "stylesheet" href = "/css/noticeContent.css">`;
             let html = template.HTML(link,main);
-            res.end(html);
+            res.send(html);
         })
     })
 })
@@ -46,7 +46,7 @@ app.get(`/page/:pageId/update`,function(req,res){//게시판 업데이트
             let main = template.updateNotice(notice);
             let link = `<link rel ="stylesheet" href ="/css/CUNotice.css">`;
             let html = template.HTML(link, main);
-            res.end(html);
+            res.send(html);
     })
 })
 

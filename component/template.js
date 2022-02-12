@@ -113,7 +113,7 @@ module.exports = {
                 <h3>${notice[0].title}</h3>
                 <div class="noticeUI"><spam>${notice[0].name}</spam> 
                 <div style ="display:inline-block; float:right;"><spam>${formatdate(notice[0].date)}</spam>
-                <button class ="notice_update" onClick = "${ud.modal()}">수정</button>
+                <button class ="notice_update" onClick = "${ud.modal(notice[0].password,notice[0].notice_id,'update')}">수정</button>
                 <form action="/delete_notice" method ="post" style ="display:inline-block;">
                     <input type ="hidden" name = "notice_id" value ="${notice[0].notice_id}">
                     <button type ="submit"  class ="notice_delete">삭제</button>
@@ -136,14 +136,16 @@ module.exports = {
         var i =0;
         while(i<comment.length){
             body = body + `<div style ="border-bottom : 1px gray solid;">
-                                <div><spam>${comment[i].Cname}</spam><div style ="display : inline-block; float:right;"><spam>2020-02-02</spam>
-                                <form style = "display : inline-block " action ="/delete_comment" method = "post">
+                                <div style ="width: 10%; height: 100%; display : inline-block; float: left;">${comment[i].Cname}</div>
+                                <div style ="float:right;"><spam>2020-02-02</spam>
+                                <form style = "display : inline-block" action ="/delete_comment" method = "post">
                                     <input type = "hidden" name = "comment_id" value ="${comment[i].comment_id}">
                                     <input type = "hidden" name = "notice_id" value = "${comment[i].notice_id}">
                                     <button class ="comment_delete_button" type = "submit">삭제</button>
                                     </form>
-                                    </div></div>
-                                <div>${comment[i].Ccontent}</div>
+                                    </div>
+                                    <div style ="width : 70%; display: inline-block; white-space:pre-line;
+                                    word-break:break-all; padding: 1%;">${comment[i].Ccontent}</div> 
                             </div>`;
             i = i+1;
         }
