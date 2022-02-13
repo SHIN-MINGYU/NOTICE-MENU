@@ -1,7 +1,7 @@
 var ud = require('../public/js/userDiscriminate');
 
 module.exports = {
-    HTML : function(pageStyle,main){
+    HTML : function(pageStyle,main){//default page
         return `<!DOCTYPE html>
         <html lang="en">
         <head>
@@ -53,14 +53,37 @@ module.exports = {
         }
         return body;
     }, 
-    noticeMenu : function(list){ //home main
+    noticeMenu : function(list,num,Maxnum){ //home main
+        let body = '';
+        if(num == undefined){ //메인홈페이지 일때 num값을 전달할수 없으므로 식별불가능할 때는 무조건 1로 초기화.
+            num = 1;
+        }
+        if(Number.isInteger(Maxnum)){// 게시글갯수에 멎춰서 인덱싱번호 생성
+            Maxnum = Maxnum;
+        }else if(Number.isInteger(Maxnum) != true){
+            Maxnum = parseInt(Maxnum) + 1;
+        }
+        if(Maxnum > num+9){ //db에 저장된 인스턴스의 갯수만큼 인덱싱번호를 생성하기 위해
+            Maxnum = num +10;
+        } else if(Maxnum < num+9){
+            Maxnum = Maxnum+1
+        }
+        body = body + `<a href= "/list/${num-1}"><이전</a>`
+        for(var i= num; i< Maxnum;i++){//리스트페이징할떄 인덱스번호 생성.
+            body = body + `<a href= "/list/${i}">[${i}]</a>`
+            if(i == Maxnum-1){
+                break;
+            }
+            body = body + ','
+        }
+        body = body + `<a href= "/list/${num+1}">이후></a>`
         return `
         <h3 style ="margin-left : 2vw">전체 글</h3>
         <div class ="choosemenu">
             <button class = "type" style ="background-color: blue;">전체</button>
             <button class = "type">공감</button>
         </div>
-        <div style ="margin-left : 2vw; margin-right:2vw; margin-top : 0.5vw">
+        <div style ="margin-left : 2vw; margin-right:2vw; margin-top : 0.5vw; text-align:center">
             <div class ="noticeHeader">
                 <table style ="width:100%; text-align: center;">
                     <colgroup>
@@ -83,8 +106,9 @@ module.exports = {
                        ${list}
                     </tbody>
                 </table>
-                <button style = "float : right;"onClick ="location.href='/create'">생성</button>
             </div>
+            <div style ="display:inline-block">${body}</div>
+            <button style = "float : right;"onClick ="location.href='/create'">생성</button>
         </div>
     `
     },
@@ -94,7 +118,8 @@ module.exports = {
         <form action = "/create_notice" method="post">
             <input class ="noticeTitle" name="title" type ="text" placeholder ="제목을 입력해주세요">
             <input type ="hidden" name="notice_id" value="${notice.length}">
-            <input class = "noticeNP" type ="text" name ="name" placeholder ="이름"><input class = "noticeNP" type ="text" name ="password" placeholder ="비밀번호">
+            <input class = "noticeNP" type ="text" name ="name" placeholder ="이름">
+            <input class = "noticeNP" type ="text" name ="password" placeholder ="비밀번호">
             <textarea class ="noticeContent" name="content" placeholder ="내용을 입력해주세요" ></textarea>
             <div><button type ="submit">생성</button></div>
         </form>
@@ -109,26 +134,53 @@ module.exports = {
         }
         return `
             <h1>고민 상담</h1>
-            <div class ="notice_header">
+            <div class ="notice_header"><!-- 게시글 만 wrap-->
                 <h3>${notice[0].title}</h3>
-                <div class="noticeUI"><spam>${notice[0].name}</spam> 
-                <div style ="display:inline-block; float:right;"><spam>${formatdate(notice[0].date)}</spam>
-                <button class ="notice_update" onClick = "${ud.modal(notice[0].password,notice[0].notice_id,'update')}">수정</button>
-                <form action="/delete_notice" method ="post" style ="display:inline-block;">
-                    <input type ="hidden" name = "notice_id" value ="${notice[0].notice_id}">
-                    <button type ="submit"  class ="notice_delete">삭제</button>
-                </form></div></div>
-                <p>${notice[0].content}</p>
+                <div class="noticeUI"><!-- 이름 시간 수정 삭제 wrap -->
+                    <spam>${notice[0].name}</spam> 
+                    <div style ="display:inline-block; float:right;"><!-- 시간, 수정, 삭제 wrap -->
+                        <spam>${formatdate(notice[0].date)}</spam>
+                        <button class ="notice_update" onClick = "${ud.modal(notice[0].password,notice[0].notice_id,'update_notice')}">수정</button>
+                        <!-- 게시글 수정 -->
+                        <form action="/delete_notice" method ="post" id = "form_delete_notice" style ="display:inline-block;" onsumbit = "return false;">
+                            <!-- 게시글 삭제 -->
+                            <input type ="hidden" name = "notice_id" value ="${notice[0].notice_id}">
+                            <button type = "button" class ="notice_delete" onClick ="${ud.modal(notice[0].password, notice[0].notice_id,'delete_notice')}">삭제</button>
+                        </form>
+                    </div>
+                </div>
+                    <p>${notice[0].content}</p>
                 <div class ="noticeSideBanner"></div>
             </div>
+            <div class ="recommend_box">
+            <!--추천 비추천박스-->
+                <div class ="recommend">
+                    <span>${notice[0].sympathy}</span>
+                    <form action ="/recommend" method = "post" style ="display: inline-block;">
+                        <input type ="hidden" value ="${notice[0].notice_id}" name ="notice_id" >
+                        <button><img src ="/picture/good.png"></button>
+                    </form>
+                </div>
+                <div class = "hate">
+                <form action ="/hate" method = "post" style ="display: inline-block;">
+                    <input type ="hidden" value ="${notice[0].notice_id}" name ="notice_id" >
+                    <button><img src ="/picture/hate.png"></button>
+                </form>
+                    <span>${notice[0].hate}</span>
+                </div>
+            </div>
             <form class ="commentcreate" action = "/create_comment" method ="post">
+            <!-- 댓글 생성 -->
                 <div>
-                <input type ="hidden" name = "id" value = "${notice[0].notice_id}">
-                <input type ="text" name ="name" placeholder= "name">
-                <input type="text" name = "password" placeholder="password"></div>
-                <div><textarea name="content" class ="comment_content"></textarea> <button type ="submit">작성</button></div>
+                    <input type ="hidden" name = "id" value = "${notice[0].notice_id}">
+                    <input type ="text" name ="name" placeholder= "name">
+                    <input type="text" name = "password" placeholder="password"></div>
+                    <div>
+                        <textarea name="content" class ="comment_content"></textarea> 
+                        <button type ="submit">작성</button>
+                    </div>
             </form>
-            <div class ="comment" style ="margin-left:2vw; margin-right:2vw;">
+            <div class ="comment" style ="margin-left:2vw; margin-right:2vw;"><!-- 댓글 리스트-->
             ${commentList}</br></div>
         `;
     },commentList : function(comment){
@@ -138,10 +190,10 @@ module.exports = {
             body = body + `<div style ="border-bottom : 1px gray solid;">
                                 <div style ="width: 10%; height: 100%; display : inline-block; float: left;">${comment[i].Cname}</div>
                                 <div style ="float:right;"><spam>2020-02-02</spam>
-                                <form style = "display : inline-block" action ="/delete_comment" method = "post">
+                                <form style = "display : inline-block" action ="/delete_comment" id = "form_delete_comment" method = "post">
                                     <input type = "hidden" name = "comment_id" value ="${comment[i].comment_id}">
                                     <input type = "hidden" name = "notice_id" value = "${comment[i].notice_id}">
-                                    <button class ="comment_delete_button" type = "submit">삭제</button>
+                                    <button type = "button" class ="comment_delete_button" onClick = "${ud.modal(comment[i].Cpassword,comment[i].comment_id,'delete_comment')}">삭제</button>
                                     </form>
                                     </div>
                                     <div style ="width : 70%; display: inline-block; white-space:pre-line;
@@ -151,14 +203,14 @@ module.exports = {
         }
         
         return body;
-    }, updateNotice : function(notice){
+    }, updateNotice : function(notice){// 글 수정
         return`
         <h3>글 수정</h3>
         <form action = "/update_notice" method="post">
             <input class ="noticeTitle" name="title" type ="text" value = "${notice[0].title}">
             <input type ="hidden" name="notice_id" value="${notice[0].notice_id}">
             <textarea class ="noticeContent" name="content">${notice[0].content}</textarea>
-            <div><button type ="submit">생성</button></div>
+            <div><button type ="submit">수정</button></div>
         </form>
         <button onclick ="location.href = '/page/${notice[0].notice_id}'" style ="float : right; margin-top: 1%; margin-right : 1%">취소</button>
         `;

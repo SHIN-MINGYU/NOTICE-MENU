@@ -4,3 +4,4 @@
 
     strict equal operator는 값과 타입가지고 검사  equal operator 값만가지고 검사
     
+    라우팅주소가 /page/:pageId 일때 /page/1의 request.params.pageId는 1인데 이때 1은 문자열이다. 

@@ -58,23 +58,38 @@ module.exports ={
             p.appendChild(string);
             ok.innerText = '확인';
             cancle.innerText = '취소';
-            ok.addEventListener('click',()=>{
-                event.preventDefault();
-                if(input.value === '${password}'){
-                    location.href = '/page/${id}/update';
-                    }
-                else{
-                    alert('패스워드를 다시 입력해주세요');
-                }
-            })
-            input.addEventListener('keyup',(e) =>{
-                if(e.keyCode === 13){
+            let modeSearch = function(mode){
+                if(mode === 'update_notice'){
                     if(input.value === '${password}'){
-                        location.href = '/page/${id}/${mode}';
+                        location.href = '/page/${id}/update';
                         }
                     else{
                         alert('패스워드를 다시 입력해주세요');
                     }
+                } else if(mode === 'delete_notice'){
+                    if(input.value === '${password}'){
+                            document.getElementById('form_delete_notice').submit();
+                        }
+                    else{
+                        alert('패스워드를 다시 입력해주세요');
+                    }
+
+                } else if(mode === 'delete_comment'){
+                    if(input.value === '${password}'){
+                        document.getElementById('form_delete_comment').submit();
+                        }
+                    else{
+                        alert('패스워드를 다시 입력해주세요');
+                    }
+                }
+            }
+            ok.addEventListener('click',()=>{
+                event.preventDefault();
+                modeSearch('${mode}');
+            })
+            input.addEventListener('keyup',(e) =>{
+                if(e.keyCode === 13){
+                    modeSearch('${mode}');
                 }
             })
             cancle.addEventListener('click',()=>{

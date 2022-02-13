@@ -66,3 +66,33 @@
     padding:0px;
     cursor: pointer;
 }
+.recommend_box{
+    border : 1px solid black;
+    width : 20vw;
+    height: auto;
+    margin : 0 auto 2vh;
+    overflow: hidden;
+}
+.recommend{
+    width : 50%;
+    height: 100%;
+    float :left;
+    text-align: center;
+}
+.hate{
+    width: 50%;
+    height :100%;
+    float : left;
+    text-align: center;
+}
+
+.recommend_box span{
+    padding-right: 3%;
+}
+.recommend_box button{
+    background-color: white;
+    border-radius: 50%;
+}
+.recommend_box button:active{
+    background-color: powderblue;
+}

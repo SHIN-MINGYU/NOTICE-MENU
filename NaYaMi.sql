@@ -4,11 +4,12 @@ CREATE TABLE `notice`(
     `name` varchar(20) NOT NULL,
     `date` date NOT NULL,
     `sympathy` int(4) NOT NULL,
+    `hate` int(4) NOT NULL,
     `content` BLOB NOT NULL,
     `password` varchar(10) NOT NULL,
     PRIMARY KEY (`notice_id`)
 );
-INSERT INTO `notice` VALUES(0, 'HIHIHI','SHIN','2022-02-08',0,'HOHO','1234');
+INSERT INTO `notice` VALUES(0, 'HIHIHI','SHIN','2022-02-08',0,0,'HOHO','1234');
 
 CREATE TABLE `comment`(
     `Cname` varchar(20) NOT NULL,
