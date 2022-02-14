@@ -12,7 +12,7 @@ app.get('/',function(req,res){//home main
     db.query('SELECT * FROM notice',function(err,allnotice){
         db.query('SELECT * FROM notice WHERE notice_id>=? AND notice_id <= ? ORDER BY notice_id desc',[(allnotice.length)-15 ,(allnotice.length)-1],function(err,notice){
             let list = template.list(notice);
-            let main = template.noticeMenu(list,undefined,allnotice.length/15);
+            let main = template.noticeMenu('전체',list,1,allnotice.length/15);
             let link =`<link rel ="stylesheet" href ="/css/noticeMenu.css"> `
             let html = template.HTML(link,main);
             res.send(html);
@@ -23,7 +23,19 @@ app.get('/list/:listId',function(req,res){ //Notice manu list
     db.query('SELECT * FROM notice',function(err, allnotice){
         db.query('SELECT * FROM notice WHERE notice_id>= ? AND notice_id <= ? ORDER BY notice_id desc',[(allnotice.length)-(15*req.params.listId),(allnotice.length-1)-(req.params.listId-1)*15],function(err,notice){
             let list = template.list(notice);
-            let main = template.noticeMenu(list,Number(req.params.listId),allnotice.length/15);
+            let main = template.noticeMenu('전체',list,Number(req.params.listId),allnotice.length/15);
+            let link =`<link rel ="stylesheet" href ="/css/noticeMenu.css"> `
+            let html = template.HTML(link,main);
+            res.send(html);
+        })
+    })
+})
+
+app.get('/sympathy/list/:listId',function(req,res){ //Notice manu list
+    db.query('SELECT * FROM notice WHERE sympathy >= 10',function(err, allnotice){
+        db.query('SELECT * FROM notice WHERE sympathy >=10 ORDER BY notice_id desc',function(err,notice){
+            let list = template.list(notice);
+            let main = template.noticeMenu('공감',list,Number(req.params.listId),allnotice.length/15);
             let link =`<link rel ="stylesheet" href ="/css/noticeMenu.css"> `
             let html = template.HTML(link,main);
             res.send(html);

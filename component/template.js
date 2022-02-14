@@ -53,39 +53,54 @@ module.exports = {
         }
         return body;
     }, 
-    noticeMenu : function(list,num,Maxnum){ //home main
+    noticeMenu : function(mode,list,num,listMaxNum){ //home main
         let body = '';
-        if(num == undefined){ //메인홈페이지 일때 num값을 전달할수 없으므로 식별불가능할 때는 무조건 1로 초기화.
-            num = 1;
+        let Minnum = num-1;
+        let Maxnum = num +1;
+        if(Number.isInteger(listMaxNum)){// 게시글갯수에 멎춰서 인덱싱번호 생성
+            listMaxNum = listMaxNum;
+        }else if(Number.isInteger(listMaxNum) != true){
+            listMaxNum = parseInt(listMaxNum) + 1;
         }
-        if(Number.isInteger(Maxnum)){// 게시글갯수에 멎춰서 인덱싱번호 생성
-            Maxnum = Maxnum;
-        }else if(Number.isInteger(Maxnum) != true){
-            Maxnum = parseInt(Maxnum) + 1;
+        if(listMaxNum > num+9){ //db에 저장된 인스턴스의 갯수만큼 인덱싱번호를 생성하기 위해
+            listMaxNum = num +10;
+        } else if(listMaxNum < num+9){
+            listMaxNum = listMaxNum+1
         }
-        if(Maxnum > num+9){ //db에 저장된 인스턴스의 갯수만큼 인덱싱번호를 생성하기 위해
-            Maxnum = num +10;
-        } else if(Maxnum < num+9){
-            Maxnum = Maxnum+1
+        if(Minnum<=0){
+            Minnum = 1;
         }
-        body = body + `<a href= "/list/${num-1}"><이전</a>`
-        for(var i= num; i< Maxnum;i++){//리스트페이징할떄 인덱스번호 생성.
+        if(Maxnum >=listMaxNum){
+            Maxnum = listMaxNum-1;
+        }
+        body = body + `<a href= "/list/${Minnum}"><이전</a>`
+        for(var i= num; i< listMaxNum;i++){//리스트페이징할떄 인덱스번호 생성.
             body = body + `<a href= "/list/${i}">[${i}]</a>`
-            if(i == Maxnum-1){
+            if(i == listMaxNum-1){
                 break;
             }
-            body = body + ','
+            body = body + ',';  
         }
-        body = body + `<a href= "/list/${num+1}">이후></a>`
+        body = body + `<a href= "/list/${Maxnum}">이후></a>`
         return `
-        <h3 style ="margin-left : 2vw">전체 글</h3>
+        <h3 style ="margin-left : 2vw; font-size: 1.5vw; font-family : SF_IceLemon">${mode} 글</h3>
         <div class ="choosemenu">
-            <button class = "type" style ="background-color: blue;">전체</button>
-            <button class = "type">공감</button>
+            <button class = "type1" onclick = "location.href ='/'">전체</button>
+            <button class = "type2" onclick = "location.href ='/sympathy/list/1'" >공감</button>
+            <script>
+                let allType = document.querySelector('.type1');
+                let sympathyType = document.querySelector('.type2');
+                let mode = document.querySelector('h3');
+                if(mode.textContent == '전체 글'){
+                    allType.style.backgroundColor = 'blue';
+                } else if(mode.textContent == '공감 글'){
+                    sympathyType.style.backgroundColor = 'blue';
+                }
+            </script>
         </div>
         <div style ="margin-left : 2vw; margin-right:2vw; margin-top : 0.5vw; text-align:center">
             <div class ="noticeHeader">
-                <table style ="width:100%; text-align: center;">
+                <table style ="width:100%; text-align: center; ">
                     <colgroup>
                         <col style ="width:7%">
                         <col>
@@ -107,7 +122,7 @@ module.exports = {
                     </tbody>
                 </table>
             </div>
-            <div style ="display:inline-block">${body}</div>
+            <div style ="display:inline-block; font-family : SF_IceLemon">${body}</div>
             <button style = "float : right;"onClick ="location.href='/create'">생성</button>
         </div>
     `

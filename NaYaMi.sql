@@ -19,3 +19,7 @@ CREATE TABLE `comment`(
     `notice_id` int(11) NOT NULL,
     FOREIGN KEY (`notice_id`) REFERENCES `notice`(`notice_id`)
 );
+
+CREATE TABLE `sympathyGroup`{
+    
+}
