@@ -1,5 +1,5 @@
-module.exports ={
-    modal : function(password, id, mode){
+module.exports = {
+    modal: function (password, id, mode) {
         return `
         const poped_up = function(){
             let bg = document.createElement('div');
@@ -61,7 +61,7 @@ module.exports ={
             let modeSearch = function(mode){
                 if(mode === 'update_notice'){
                     if(input.value === '${password}'){
-                        location.href = '/page/${id}/update';
+                        location.href = '/notice/page/${id}/update';
                         }
                     else{
                         alert('패스워드를 다시 입력해주세요');
