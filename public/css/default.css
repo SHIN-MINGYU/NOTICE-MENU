@@ -28,3 +28,10 @@ body{
     float: left;
     overflow: auto; 
 }
+.login{
+    position: absolute;
+    right : 2vw;
+}
+.login a{
+    cursor: pointer;
+}

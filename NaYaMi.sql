@@ -47,3 +47,16 @@ CREATE TABLE `sympathyGroup`
 (`notice_id`) REFERENCES `notice`
 (`notice_id`)
 );
+CREATE TABLE `login_info`
+(
+    `id` varchar
+(15) NOT NULL,
+    `password` varchar
+(15) NOT NULL,
+    `nickname` varchar
+(15) NOT NULL 
+    );
+INSERT INTO `
+login_info`
+VALUES
+    ('root', '@tlsalsrb123', 'admin');

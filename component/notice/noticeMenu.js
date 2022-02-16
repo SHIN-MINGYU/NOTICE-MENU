@@ -1,38 +1,4 @@
-module.exports = function (mode, list, num, listMaxNum) { //home main
-    let body = '';
-    let pagingMode = '';
-    let Minnum = num - 1;
-    let Maxnum = num + 1;
-    if (Number.isInteger(listMaxNum)) {// 게시글갯수에 멎춰서 인덱싱번호 생성
-        listMaxNum = listMaxNum;
-    } else if (Number.isInteger(listMaxNum) != true) {
-        listMaxNum = parseInt(listMaxNum) + 1;
-    }
-    if (listMaxNum > num + 9) { //db에 저장된 인스턴스의 갯수만큼 인덱싱번호를 생성하기 위해
-        listMaxNum = num + 10;
-    } else if (listMaxNum < num + 9) {
-        listMaxNum = listMaxNum + 1
-    }
-    if (Minnum <= 0) { //이전 이후의 최솟 최댓범위
-        Minnum = 1;
-    }
-    if (Maxnum >= listMaxNum) {
-        Maxnum = listMaxNum - 1;
-    }
-    if (mode == '전체') {
-        pagingMode = `/notice`;
-    } else if (mode == '공감') {
-        pagingMode = `/sympathy`;
-    }
-    body = body + `<a href= "${pagingMode}/list/${Minnum}"><이전</a>`
-    for (var i = num; i < listMaxNum; i++) {//리스트페이징할떄 인덱스번호 생성.
-        body = body + `<a href= "${pagingMode}/list/${i}">[${i}]</a>`
-        if (i == listMaxNum - 1) {
-            break;
-        }
-        body = body + ',';
-    }
-    body = body + `<a href= "${pagingMode}/list/${Maxnum}">이후></a>`
+module.exports = function (mode, list, pageListing) { //home main
     return `
         <h3 style ="margin-left : 2vw; font-size: 1.5vw; font-family : SF_IceLemon">${mode} 글</h3>
         <div class ="choosemenu">
@@ -73,8 +39,17 @@ module.exports = function (mode, list, num, listMaxNum) { //home main
                     </tbody>
                 </table>
             </div>
-            <div style ="display:inline-block; font-family : SF_IceLemon">${body}</div>
+            <div style ="display:inline-block; font-family : SF_IceLemon">${pageListing}</div>
             <button style = "float : right;"onClick ="location.href='/notice/create'">생성</button>
+            <br>
+            <form action = "/notice/search_process" method = "post">
+                <select name = "type">
+                    <option value = "content" selected = "selected">내용</option>
+                    <option value = "name">이름</option>
+                </select>
+                <input type = "text" name = "searchText"/>
+                <button type = "submit">검색</button>
+            </form>
         </div>
     `
 }

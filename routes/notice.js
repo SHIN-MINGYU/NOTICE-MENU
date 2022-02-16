@@ -8,8 +8,10 @@ const noticeMain = require('../component/notice/noticeMain');
 const commentList = require('../component/comment/commentList');
 const updateNotice = require('../component/notice/updateNotice');
 const formatdate = require('../public/js/formatdate');
-const qs = require('querystring');
+const listFactory = require('../public/js/listFactory');
 const bodyParser = require('body-parser');
+const loginstatus = require('../public/js/loginstatus');
+
 
 // parse application/x-www-form-urlencoded
 router.use(bodyParser.urlencoded({ extended: true }));//true는 사용자 querystring모듈을 인스톨한것을 쓸때 사용
@@ -18,22 +20,25 @@ router.use(bodyParser.urlencoded({ extended: true }));//true는 사용자 querys
 router.use(bodyParser.json());
 
 router.get('/list/:listId', function (req, res) { //Notice manu list
+    const listId = req.params.listId;
+    let view = 15;
     db.query('SELECT * FROM notice', function (err, allnotice) {
-        db.query('SELECT * FROM notice WHERE notice_id>= ? AND notice_id <= ? ORDER BY notice_id desc', [(allnotice.length) - (15 * req.params.listId), (allnotice.length - 1) - (req.params.listId - 1) * 15], function (err, notice) {
+        db.query('SELECT * FROM notice ORDER BY notice_id desc limit ? offset ?', [view, (listId - 1) * view], function (err, notice) {
             let list = template.list(notice);
-            let main = noticeMenu('전체', list, Number(req.params.listId), allnotice.length / 15);
+            let main = noticeMenu('전체', list, listFactory('전체', Number(listId), allnotice.length / view, req));
             let link = `<link rel ="stylesheet" href ="/css/noticeMenu.css"> `
-            let html = template.HTML(link, main);
+            let html = template.HTML(link, main, loginstatus(req));
             res.send(html);
         })
     })
 })
 
+
 router.get('/create', function (req, res) { //게시판 생성
     db.query('SELECT * FROM notice', function (err, notice) {
         let main = createNotice(notice);
         let link = `<link rel ="stylesheet" href ="/css/CUNotice.css">`;
-        let html = template.HTML(link, main);
+        let html = template.HTML(link, main, loginstatus(req));
         res.send(html);
     })
 })
@@ -46,16 +51,17 @@ router.get(`/page/:pageId`, function (req, res) { //게시판 상세보기
             }
             let main = noticeMain(notice, commentList(comment));
             let link = `<link rel = "stylesheet" href = "/css/noticeContent.css">`;
-            let html = template.HTML(link, main);
+            let html = template.HTML(link, main, loginstatus(req));
             res.send(html);
         })
     })
 })
+
 router.get(`/page/:pageId/update`, function (req, res) {//게시판 업데이트
     db.query('SELECT * FROM notice WHERE notice_id =?', [req.params.pageId], function (err, notice) {
         let main = updateNotice(notice);
         let link = `<link rel ="stylesheet" href ="/css/CUNotice.css">`;
-        let html = template.HTML(link, main);
+        let html = template.HTML(link, main, loginstatus(req));
         res.send(html);
     })
 })
@@ -88,7 +94,7 @@ router.post(`/delete`, function (req, res) {//게시판 삭제
     })
 })
 
-router.post(`t/update_process`, function (req, res) { //게시판 업데이트
+router.post(`/update_process`, function (req, res) { //게시판 업데이트
     let title = req.body.title;
     let notice_id = req.body.notice_id;
     let content = req.body.content;
@@ -121,13 +127,19 @@ router.post(`/recommend`, function (req, res) {//공감 버튼 db에 저장
     })
 })
 
-router.post(`hate`, function (req, res) {//비공감 버튼 db에 저장
+router.post(`/hate`, function (req, res) {//비공감 버튼 db에 저장
     let notice_id = req.body.notice_id;
     db.query('SELECT hate FROM notice WHERE notice_id = ?', [notice_id], function (err, hate) {
         db.query('UPDATE notice SET hate =? WHERE notice_id = ?', [hate[0].hate + 1, notice_id], function (err, result) {
             res.redirect(`/notice/page/${notice_id}`);
         })
     })
+})
+
+router.post(`/search_process`, function (req, res) {
+    let type = req.body.type;
+    let searchText = req.body.searchText;
+    res.redirect(`/search/list/1/type/${type}/searchText/${searchText}`);
 })
 
 module.exports = router;
