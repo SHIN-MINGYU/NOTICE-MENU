@@ -11,7 +11,6 @@ const port = 3000;
 
 var mysql = require('mysql');
 var session = require('express-session');
-const { request } = require('https');
 var MySQLStore = require('express-mysql-session')(session);
 
 var options = {

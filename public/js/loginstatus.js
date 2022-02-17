@@ -7,6 +7,6 @@ module.exports = function (req) {
         <a onclick = "location.href = '/auth/logout_process'">logout</a></div>`;
     }
     else {
-        return `<div class = "login" onclick = "${longinWindow(0, 0, 'update_notice')}"><a>login</a></div>`;
+        return `<div class = "login" onclick = "${longinWindow(0, 0, 'update_notice')}"><span></span><a>login</a></div>`;
     }
 }

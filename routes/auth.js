@@ -45,5 +45,4 @@ router.get('/logout_process', function (req, res) {
 
     });
 })
-
 module.exports = router;

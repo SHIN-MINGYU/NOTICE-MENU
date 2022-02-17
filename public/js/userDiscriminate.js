@@ -2,6 +2,7 @@ module.exports = {
     modal: function (password, id, mode) {
         return `
         const poped_up = function(){
+            let admin = document.querySelector('.login span');
             let bg = document.createElement('div');
             let discriminate = document.createElement('div');
             let div = document.createElement('div');
@@ -59,27 +60,44 @@ module.exports = {
             ok.innerText = '확인';
             cancle.innerText = '취소';
             let modeSearch = function(mode){
-                if(mode === 'update_notice'){
-                    if(input.value === '${password}'){
-                        location.href = '/notice/page/${id}/update';
+                if(admin.textContent == 'admin'){
+                    if(mode === 'update_notice'){
+                        if(input.value === '${password}'){
+                            location.href = '/notice/page/${id}/update';
+                            }
+                        else{
+                            alert('패스워드를 다시 입력해주세요');
                         }
-                    else{
-                        alert('패스워드를 다시 입력해주세요');
-                    }
-                } else if(mode === 'delete_notice'){
-                    if(input.value === '${password}'){
+                    } else if(mode === 'delete_notice'){
                             document.getElementById('form_delete_notice').submit();
-                        }
-                    else{
-                        alert('패스워드를 다시 입력해주세요');
+
+                    } else if(mode === 'delete_comment'){
+                        document.getElementById('form_delete_comment').submit();
                     }
 
-                } else if(mode === 'delete_comment'){
-                    if(input.value === '${password}'){
-                        document.getElementById('form_delete_comment').submit();
+                }else{
+                    if(mode === 'update_notice'){
+                        if(input.value === '${password}'){
+                            location.href = '/notice/page/${id}/update';
+                            }
+                        else{
+                            alert('패스워드를 다시 입력해주세요');
                         }
-                    else{
-                        alert('패스워드를 다시 입력해주세요');
+                    } else if(mode === 'delete_notice'){
+                        if(input.value === '${password}'){
+                                document.getElementById('form_delete_notice').submit();
+                            }
+                        else{
+                            alert('패스워드를 다시 입력해주세요');
+                        }
+
+                    } else if(mode === 'delete_comment'){
+                        if(input.value === '${password}'){
+                            document.getElementById('form_delete_comment').submit();
+                            }
+                        else{
+                            alert('패스워드를 다시 입력해주세요');
+                        }
                     }
                 }
             }

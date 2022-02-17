@@ -1,6 +1,5 @@
 const ud = require('../../public/js/userDiscriminate');
 const formatdate = require('../../public/js/formatdate');
-
 module.exports = function (notice, commentList) { //게시판 상세보기
     return `
         <h1>고민 상담</h1>
@@ -15,7 +14,7 @@ module.exports = function (notice, commentList) { //게시판 상세보기
                     <form action="/notice/delete" method ="post" id = "form_delete_notice" style ="display:inline-block;" onsumbit = "return false;">
                         <!-- 게시글 삭제 -->
                         <input type ="hidden" name = "notice_id" value ="${notice[0].notice_id}">
-                        <button type = "button" class ="notice_delete" onClick ="${ud.modal(notice[0].password, notice[0].notice_id, 'delete_notice')}">삭제</button>
+                        <button type = "button" class ="notice_delete" onclick = "${ud.modal(notice[0].password, notice[0].notice_id, 'delete_notice')}">삭제</button>
                     </form>
                 </div>
             </div>

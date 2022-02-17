@@ -4,6 +4,7 @@ const db = require('../lib/db');
 const noticeMenu = require('../component/notice/noticeMenu');
 const template = require('../component/template');
 const listFactory = require('../public/js/listFactory')
+const loginstatus = require('../public/js/loginstatus');
 
 router.get('/list/:listId/type/:typeId/searchText/:textId', function (req, res) { //search
     const type = req.params.typeId;

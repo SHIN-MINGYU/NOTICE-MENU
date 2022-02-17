@@ -85,11 +85,13 @@ router.post('/create_process', function (req, res) { //게시판 생성 과정
 
 router.post(`/delete`, function (req, res) {//게시판 삭제
     let notice_id = req.body.notice_id;
-    db.query('DELETE FROM comment WHERE notice_id = ?', [notice_id], function (err, result2) {
-        db.query('DELETE FROM notice WHERE notice_id =?', [notice_id], function (err, result) {
-            //db안에 참조하는 속성이 있어서 위의 참조되는 속성을 먼저 제거해준후 제거 작업 실행
-            //db.table.noticeの中にreferenceされるcomponentがあるからreferenceするcomponentを先に消しておく
-            res.redirect('/');
+    db.query('DELETE FROM sympathyGroup WHERE notice_id =?', [notice_id], function (err, result3) {
+        db.query('DELETE FROM comment WHERE notice_id = ?', [notice_id], function (err, result2) {
+            db.query('DELETE FROM notice WHERE notice_id =?', [notice_id], function (err, result) {
+                //db안에 참조하는 속성이 있어서 위의 참조되는 속성을 먼저 제거해준후 제거 작업 실행
+                //db.table.noticeの中にreferenceされるcomponentがあるからreferenceするcomponentを先に消しておく
+                res.redirect('/');
+            })
         })
     })
 })
