@@ -17,8 +17,8 @@ module.exports = function () {
             let idString = document.createTextNode('아이디 : ');
             let passString = document.createTextNode('패스워드 : ');
             loginForm.action = '/auth/login_process';
-            idInput.name = 'uid';
-            passwordInput.name = 'upass';
+            idInput.name = 'username';
+            passwordInput.name = 'password';
             loginForm.method = 'post';
             let zIndex = 9999;
             bg.setStyle({

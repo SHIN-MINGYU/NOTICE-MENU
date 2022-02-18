@@ -10,9 +10,9 @@ router.use(bodyParser.urlencoded({ extended: true }));//true는 사용자 querys
 router.use(bodyParser.json());
 
 
-router.post('/login_process', function (req, res) {
-    let uid = req.body.uid;
-    let upass = req.body.upass;
+/* router.post('/login_process', function (req, res) {
+    let uid = req.body.username;
+    let upass = req.body.password;
     let nickname = '';
     let isLogined = false;
     db.query('SELECT * FROM login_info', function (err, login_info) {
@@ -33,7 +33,7 @@ router.post('/login_process', function (req, res) {
             res.redirect('/');
         }
     })
-})
+}) */
 
 router.get('/logout_process', function (req, res) {
     req.session.destroy(function (error) {

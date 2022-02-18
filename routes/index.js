@@ -12,7 +12,7 @@ router.get('/', function (req, res) {//home main
         db.query('SELECT * FROM notice ORDER BY notice_id desc limit ? offset ?', [view, 0], function (err, notice) {
             let list = template.list(notice);
             let main = noticeMenu('전체', list, pageListing('전체', 1, allnotice.length / view));
-            let link = `<link rel ="stylesheet" href ="/css/noticeMenu.css"> `
+            let link = `<link rel ="stylesheet" href ="/css/noticeMenu.css">`
             let html = template.HTML(link, main, loginstatus(req));
             res.send(html);
         });

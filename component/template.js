@@ -19,7 +19,7 @@ module.exports = {
                 <div class = "menu">
                     <ul>
                         <li onClick = "location.href = '/'">HOME</li>
-                        <li>여기는?</li>
+                        <li onClick = "location.href = '/location'">여기는?</li>
                         <li>저는?</li>
                         <li>연락처</li>
                     </ul>
