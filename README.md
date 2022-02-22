@@ -3,7 +3,6 @@ NOTICE-MENU(Worries Clinic)
 
 
 The reason it was made
-
     1. TALK
         -Dont't Worry, What are you waiting for? Just talk with us!
         Even only talking with us, the problem is not just yours
@@ -15,8 +14,7 @@ The reason it was made
         And that make you to make chance what listen many diffrent types of people.  
 
 REQUIRED MODULE
-
-    "dependencies": {
+     "dependencies": {
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "express-mysql-session": "^2.1.7",
@@ -24,10 +22,9 @@ REQUIRED MODULE
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "pm2": "^5.1.2"
-  }
+  },
 
 Need DB TABLES
-
     I inserted  this folder the sql files
 
 

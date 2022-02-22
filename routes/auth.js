@@ -10,14 +10,14 @@ router.use(bodyParser.urlencoded({ extended: true }));//true는 사용자 querys
 router.use(bodyParser.json());
 
 
-/* router.post('/login_process', function (req, res) {
+router.post('/login_process', function (req, res) {
     let uid = req.body.username;
     let upass = req.body.password;
     let nickname = '';
     let isLogined = false;
     db.query('SELECT * FROM login_info', function (err, login_info) {
         for (var i = 0; i < login_info.length; i++) {
-            if (uid == login_info[i].id && upass == login_info[i].password) {
+            if (uid == login_info[i].username && upass == login_info[i].password) {
                 isLogined = true;
                 nickname = login_info[i].nickname;
                 break;
@@ -33,8 +33,7 @@ router.use(bodyParser.json());
             res.redirect('/');
         }
     })
-}) */
-
+})
 router.get('/logout_process', function (req, res) {
     req.session.destroy(function (error) {
         if (error) {

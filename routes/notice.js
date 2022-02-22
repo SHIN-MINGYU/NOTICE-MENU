@@ -109,7 +109,6 @@ router.post(`/recommend`, function (req, res) {//공감 버튼 db에 저장
     let isHave = false
     db.query('SELECT sympathy FROM notice WHERE notice_id = ?', [notice_id], function (err, sympathy) {
         db.query('UPDATE notice SET sympathy =? WHERE notice_id = ?', [sympathy[0].sympathy + 1, notice_id], function (err, result) {
-            console.log(sympathy[0].sympathy)
             if (sympathy[0].sympathy > 10) {
                 db.query(`SELECT * FROM sympathyGroup`, function (err, sG) {
                     for (var i = 0; i < sG.length; i++) {
