@@ -68,13 +68,14 @@ router.get(`/page/:pageId/update`, function (req, res) {//게시판 업데이트
 
 router.post('/create_process', function (req, res) { //게시판 생성 과정
     let NOW = formatdate(new Date());
+    console.log(req.body);
     let title = req.body.title;
     let notice_id = req.body.notice_id;
     let name = req.body.name;
     let content = req.body.content;
     let password = req.body.password;
     db.query(`INSERT INTO notice (notice_id, title, name, date, sympathy,hate,content,password)  
-                 VALUES ("${notice_id}","${title}","${name}","${NOW}",0,0,"${content}","${password}")`,
+                 VALUES (?,?,?,?,?,?,?,?)`, [notice_id, title, name, NOW, 0, 0, content, password],
         function (err, result) {
             if (err) {
                 throw err;
